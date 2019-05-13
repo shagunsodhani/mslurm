@@ -1,0 +1,31 @@
+#!/usr/bin/env python3
+
+from tinydb import TinyDB
+from datetime import datetime
+import argparse
+import pytz
+
+parser = argparse.ArgumentParser(description='Interface between mslurm and the database')
+
+parser.add_argument('command', type=str,
+                    help='Slurm Command')
+
+parser.add_argument('output', type=str,
+                    help='Output from the slurm command')
+
+args = parser.parse_args()
+
+db = TinyDB('~/project/mslurmdb.json')
+eastern = pytz.timezone('US/Eastern')
+fmt = '%Y-%m-%d %H:%M:%S %Z%z'
+
+payload = {
+    "command": args.command,
+    "output": args.output,
+    "time": datetime.now(eastern).strftime(fmt)}
+
+db.insert(payload)
+
+print("{} inserted into the db".format(payload))
+
+

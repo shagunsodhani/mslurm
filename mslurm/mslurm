@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "The slurm command is:" "$@"
+res=`$@`
+eval "mslurm_db \"$@\" \"$res\""
