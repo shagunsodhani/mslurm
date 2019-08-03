@@ -1,4 +1,11 @@
 #!/bin/bash
-echo "The slurm command is:" "$@"
-res=`$@`
-eval "mslurm_db \"$@\" \"$res\""
+if [[ "$1" == "submit" ]];
+then
+    echo "The slurm command is:" "$2"
+    res=`$2`
+    eval "mslurm_db $1 \"$2\" \"$res\""
+elif [[ "$1" == "query" ]];
+then
+    echo "The query is:" "$2"
+    eval "mslurm_db $1 \"$2\""
+fi
